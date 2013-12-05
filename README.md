@@ -17,7 +17,9 @@ Features
   * checkboxes
   * relation widgets
   * editable grid columns
+  * enum fields
   * partial views
+* multi languages
 
 ### Templates
 
