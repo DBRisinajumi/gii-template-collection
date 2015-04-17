@@ -42,14 +42,14 @@ $this->providers = array('gtc.fullCrud.providers.EditableProvider');
     </div>
 </div>
 
-<?= "<?php Yii::beginProfile('{$this->modelClass}.view.grid'); ?>"; ?>
-
 <?php
+echo "<?php \nYii::beginProfile('{$this->modelClass}.view.grid');\n"; 
 // prepare (seven) columns
 $count = 0;
 $maxColumns = 8; //TODO: you could get this from a provider, keep 8 as default .... OR generator attribute
 $columns = "";
 $comment = false;
+$init_php = '';
 foreach ($this->tableSchema->columns as $column) {
 
     // skip column with provider function
@@ -62,7 +62,11 @@ foreach ($this->tableSchema->columns as $column) {
         $comment = true;
         $columns .= "            /*\n";
     }
-    $column = $this->provider()->generateColumn($this->modelClass, $column);
+    $column = $this->provider()->generateColumn($this->modelClass, $column, null, true);
+    if(is_array($column)){
+        $init_php .= $column['init_php'] . "\n";
+        $column = $column['column'];
+    }
     $columns .= "            " . $column . ",\n";
     if (substr($column, 0, 1) != '#') {
         $count++;
@@ -71,12 +75,15 @@ foreach ($this->tableSchema->columns as $column) {
 if ($comment === true) {
     $columns .= "            */\n";
 }
+
+echo $init_php;
 ?>
+
 
 
 <?=
 // render grid view
-"<?php
+"
 \$this->widget('TbGridView',
     array(
         'id' => '{$this->class2id($this->modelClass)}-grid',

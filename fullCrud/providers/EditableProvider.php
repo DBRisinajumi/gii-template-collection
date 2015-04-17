@@ -9,7 +9,7 @@ class EditableProvider extends GtcCodeProvider
      *
      * @return null|string
      */
-    public function generateColumn($modelClass, $column, $controller = null)
+    public function generateColumn($modelClass, $column, $controller = null, $extended = false)
     {
 
         if (is_null($controller)) {
@@ -47,17 +47,38 @@ class EditableProvider extends GtcCodeProvider
             $fcolumns         = $relatedModel->attributeNames();
 
             //return null; //$provider->generateValueField($modelClass, $column);
-
-            return "array(
+            if($extended){
+            $init_php = "\${$column->name}_list_data = CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}');";
+            
+            $ret_column = "array(
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
                     'type' => 'select',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
-                    'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
+                    'source' => \${$column->name}_list_data,
                     //'placement' => 'right',
-                )
+                ),
+                'filter' => \${$column->name}_list_data,
             )";
+                
+            return array(
+                'column' => $ret_column,
+                'init_php' => $init_php,
+            );
+            }else{
+
+                return "array(
+                    'class' => 'editable.EditableColumn',
+                    'name' => '{$column->name}',
+                    'editable' => array(
+                        'type' => 'select',
+                        'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                        'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
+                        //'placement' => 'right',
+                    ),
+                )";                
+            }
 
         } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             return "array(
