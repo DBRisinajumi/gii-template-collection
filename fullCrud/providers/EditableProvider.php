@@ -84,6 +84,7 @@ class EditableProvider extends GtcCodeProvider
             return "array(
                     'class' => 'editable.EditableColumn',
                     'name' => '{$column->name}',
+                    //'value' => '\$data->getEnumColumnLabel(\"{$column->name}\")'    
                     'editable' => array(
                         'type' => 'select',
                         'url' => \$this->createUrl('/{$controller}/editableSaver'),

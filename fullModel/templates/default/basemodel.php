@@ -241,7 +241,7 @@ if(!empty($enum)){
 <?php
     foreach($columns as $name=>$column)
     {
-        if($column->type==='string' and !$column->isForeignKey and !isset($enum[$name]))
+        if($column->type==='string' and !$column->isForeignKey and !isset($enum[$name]) and !$column->autoIncrement)
         {
             echo "        \$criteria->compare('t.$name', \$this->$name, true);\n";
         }
