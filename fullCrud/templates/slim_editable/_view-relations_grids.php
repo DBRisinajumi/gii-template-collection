@@ -95,6 +95,8 @@ if ($count >= $maxColumns+1) {
 <div class=\"table-header\">
     <?=Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}')?>
     <?php    
+    
+    \$rightsPrefix = '{$this->getRightsPrefix()}';
         
     \$this->widget(
         'bootstrap.widgets.TbButton',
@@ -109,6 +111,8 @@ if ($count >= $maxColumns+1) {
                 'value' => \$modelMain->primaryKey,
                 'ajax' => '{$this->class2id($rmodelClassName)}-grid',
             ),
+            'visible' => (Yii::app()->user->checkAccess(\$rightsPrefix . '.*') 
+                        || Yii::app()->user->checkAccess(\$rightsPrefix . '.Create')),             
             'ajaxOptions' => array(
                     'success' => 'function(html) {\$.fn.yiiGridView.update(\'{$this->class2id($rmodelClassName)}-grid\');}'
                     ),
@@ -138,7 +142,7 @@ if ($count >= $maxColumns+1) {
     \$model = new {$rmodelClassName}();
     \$model->unsetAttributes();
     \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
-
+    
     // render grid view
 
     \$this->widget('TbGridView',
@@ -147,6 +151,7 @@ if ($count >= $maxColumns+1) {
             'dataProvider' => \$model->search(),
             'template' => '{summary}{items}',
             'summaryText' => '&nbsp;',
+            'enableSorting' => false,
             'htmlOptions' => array(
                 'class' => 'rel-grid-view'
             ),            
@@ -157,7 +162,7 @@ if ($count >= $maxColumns+1) {
                     'buttons' => array(
                         'view' => array('visible' => 'FALSE'),
                         'update' => array('visible' => 'FALSE'),
-                        'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
+                        'delete' => array('visible' => 'Yii::app()->user->checkAccess('.\$rightsPrefix.'\".Delete\")'),
                     ),
                     'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
                     'deleteConfirmation'=>Yii::t('{$this->messageCatalogStandard}','Do you want to delete this item?'),   
@@ -175,7 +180,7 @@ if ($count >= $maxColumns+1) {
 }    
 ?>"; ?>
 
-<?
+<?php
 endforeach;
 
 endif;

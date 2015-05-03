@@ -57,6 +57,8 @@ class EditableProvider extends GtcCodeProvider
                     'type' => 'select',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
                     'source' => \${$column->name}_list_data,
+                    'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                        || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
                     //'placement' => 'right',
                 ),
                 'filter' => \${$column->name}_list_data,
@@ -75,6 +77,8 @@ class EditableProvider extends GtcCodeProvider
                         'type' => 'select',
                         'url' => \$this->createUrl('/{$controller}/editableSaver'),
                         'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
+                        'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                            || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
                         //'placement' => 'right',
                     ),
                 )";                
@@ -89,6 +93,9 @@ class EditableProvider extends GtcCodeProvider
                         'type' => 'select',
                         'url' => \$this->createUrl('/{$controller}/editableSaver'),
                         'source' => \$model->getEnumFieldLabels('{$column->name}'),
+                        'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                            || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
+                            
                         //'placement' => 'right',
                     ),
                    'filter' => \$model->getEnumFieldLabels('{$column->name}'),
@@ -101,6 +108,9 @@ class EditableProvider extends GtcCodeProvider
                 'editable' => array(
                     'type' => 'textarea',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                        || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
+                        
                     //'placement' => 'right',
                 )
             )";
@@ -112,6 +122,9 @@ class EditableProvider extends GtcCodeProvider
                 'editable' => array(
                     'type' => 'date',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                        || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
+                        
                     //'placement' => 'right',
                 )
             )";
@@ -122,6 +135,9 @@ class EditableProvider extends GtcCodeProvider
                 'editable' => array(
                     'type' => 'datetime',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                        || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
+                        
                     //'placement' => 'right',
                 )
             )";
@@ -140,6 +156,8 @@ class EditableProvider extends GtcCodeProvider
                 'name' => '{$column->name}',
                 'editable' => array(
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                        || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
                     //'placement' => 'right',
                 ),
                 'htmlOptions' => array(
@@ -153,6 +171,9 @@ class EditableProvider extends GtcCodeProvider
                 'name' => '{$column->name}',
                 'editable' => array(
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    'apply' =>  Yii::app()->user->checkAccess(\$rightsPrefix.'.*')
+                        || Yii::app()->user->checkAccess(\$rightsPrefix.'.Update'),                        
+                        
                     //'placement' => 'right',
                 )
             )";

@@ -61,7 +61,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
                        "htmlOptions"=> array(
                             "onclick"=>"$(\'.crud-form form\').submit();",
                        ),
-                       "visible"=> (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"))
+                       "visible"=> (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Create"))
                     )); 
                     ?>
             '?>
