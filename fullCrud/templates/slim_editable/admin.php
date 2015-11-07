@@ -103,10 +103,16 @@ if ($comment === true) {
                     'update' => array('visible' => 'FALSE'),
                     'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete\")'),
                 ),
+                
                 'viewButtonUrl' => 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
+                'viewButtonIcon' => 'icon-edit',
+                'viewButtonOptions' => [
+                    'data-toggle' => 'tooltip',
+                    'title' => Yii::t('{$this->messageCatalogStandard}', 'View & Edit'),
+                ],                      
+
                 'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"delete\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
                 'deleteConfirmation'=>Yii::t('{$this->messageCatalogStandard}','Do you want to delete this item?'),                    
-                'viewButtonOptions'=>array('data-toggle'=>'tooltip'),   
                 'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),   
             ),
         )
