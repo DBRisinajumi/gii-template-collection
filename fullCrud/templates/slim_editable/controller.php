@@ -178,6 +178,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $this->render('admin', array('model' => $model));
     }
 
+    /**
+     * load controller model
+     * @param int $id
+     * @return PfOrderItemNotes
+     * @throws CHttpException|
+     */
     public function loadModel($id)
     {
         $m = <?php echo $this->modelClass; ?>::model();
