@@ -11,13 +11,9 @@ $this->providers = array('gtc.fullCrud.providers.EditableProvider');
     . Yii::t('{$this->messageCatalogStandard}', 'Manage')
 );
 
-\$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}');
-
 ?>
 "
 ?>
-
-<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
 <div class="clearfix">
     <div class="btn-toolbar pull-left">
@@ -52,6 +48,10 @@ $columns = "";
 $comment = false;
 foreach ($this->tableSchema->columns as $column) {
 
+    if($column->isPrimaryKey){
+        continue;
+    }
+    
     // skip column with provider function
     if ($this->provider()->skipColumn($this->modelClass, $column)) {
         continue;
@@ -89,12 +89,6 @@ if ($comment === true) {
             'displayFirstAndLast' => true,
         ),
         'columns' => array(
-            array(
-                'class' => 'CLinkColumn',
-                'header' => '',
-                'labelExpression' => '\$data->{$this->provider()->suggestIdentifier($this->modelClass)}',
-                'urlExpression' => 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data[\"{$this->tableSchema->primaryKey}\"]))'
-            ),
 {$columns}
             array(
                 'class' => 'TbButtonColumn',
@@ -118,7 +112,5 @@ if ($comment === true) {
         )
     )
 );
-?>"
-?>
 
-<?= "<?php Yii::endProfile('{$this->modelClass}.view.grid'); ?>"; ?>
+Yii::endProfile('{$this->modelClass}.view.grid');";

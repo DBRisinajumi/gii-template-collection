@@ -21,6 +21,8 @@ Yii::import('<?php echo $modelClass; ?>.*');
 class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?>
 {
 
+    static $listData = false;
+
     // Add your model-specific methods here. This file will not be overriden by gtc except you force it.
     public static function model($className = __CLASS__)
     {
@@ -37,6 +39,28 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
         return parent::getItemLabel();
     }
 
+    static public function getListData(){
+        if(self::$listData){
+            return self::$listData;
+        }
+        $findCriteria = [
+            // 'condition' => " ... ",
+            'limit' => 1000,
+            //'order' => 'velchile_code'
+        ];
+        self::$listData = CHtml::listData(self::model()->findAll($findCriteria), 'id', 'itemLabel');
+        
+        return self::$listData;
+    }    
+    
+    static public function getItemLabelById($id){
+        $listData = self::getListData();
+        if(!isset($listData[$id])){
+            return null;
+        }
+        return $listData[$id];
+    }    
+    
     public function behaviors()
     {
         <?php
@@ -72,5 +96,46 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
            // ),                        
         ));
     }
+
+<?php
+    if(!isset($columns['deleted'])){
+?>
+
+    public function delete() {
+    
+        /**
+        * delete related records
+        */
+        foreach ($this->relations() as $relName => $relation) {
+            if ($relation[0] != self::HAS_MANY && $relation[0] != self::HAS_ONE) {
+                continue;
+            }
+            foreach ($this->$relName as $relRecord)
+                $relRecord->delete();
+        }
+        return parent::delete();
+    }
+    
+    public function canDelete() {
+    
+        /**
+        * check relations
+        */
+        foreach ($this->relations() as $relName => $relation) {
+            if ($relation[0] != self::HAS_MANY && $relation[0] != self::HAS_ONE) {
+                continue;
+            }
+
+            /**
+             * exist related record
+             */
+            foreach ($this->$relName as $relRecord)
+                return false;
+        }
+        return true;
+    }    
+<?php
+    }
+?>
 
 }

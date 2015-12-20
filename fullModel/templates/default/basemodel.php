@@ -256,20 +256,19 @@ if(!empty($enum)){
         return $criteria;
 
     }
-    
+<?php
+    if(isset($columns['deleted'])){
+?>
+
     public function delete() {
-
         /**
-        * delete related records
+        * mark record as deletes
         */
-        foreach ($this->relations() as $relName => $relation) {
-            if ($relation[0] != self::HAS_MANY && $relation[0] != self::HAS_ONE) {
-                continue;
-            }
-            foreach ($this->$relName as $relRecord)
-                $relRecord->delete();
-        }
-        return parent::delete();
+        $this->deleted = 1;
+        $this->save();
     }    
-
+<?php        
+    }   
+?>
+    
 }

@@ -1,19 +1,12 @@
 <?php 
 //add editable provider
-$this->providers = array('gtc.fullCrud.providers.EditableProvider');
+$this->providers = ['gtc.fullCrud.providers.EditableProvider'];
 ?>
 <?=
 "<?php
-    \$this->setPageTitle(
-        Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
-        . ' - '
-        . Yii::t('{$this->messageCatalogStandard}', 'View')
-        . ': '   
-        . \$model->getItemLabel()            
-);    
-\$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
-\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});
-\$this->breadcrumbs[] = Yii::t('{$this->messageCatalogStandard}', 'View');
+    \$pageTitle = Yii::t('DdduModule.model', 'View {$this->class2name($this->modelClass)}');
+    \$this->setPageTitle(\$pageTitle);    
+
 " .    
 '$cancel_buton = $this->widget("bootstrap.widgets.TbButton", array(
     #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Cancel"),
@@ -31,16 +24,13 @@ $this->providers = array('gtc.fullCrud.providers.EditableProvider');
 ?>'    
 ?>
 
-<?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
-
 <div class="clearfix">
     <div class="btn-toolbar pull-left">
         <div class="btn-group"><?="<?php echo \$cancel_buton;?>"?></div>
         <div class="btn-group">
             <h1>
                 <i class="<?=$this->icon;?>"></i>
-                <?php  echo "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "');?>"?>
-                <small><?php echo "<?php echo\$model->{$this->provider()->suggestIdentifier($this->modelClass)}?>"?></small>
+                <?php  echo "<?php echo \$pageTitle;?>"?>
             </h1>
         </div>
         <div class="btn-group"><?php 
@@ -73,12 +63,6 @@ list($left_span,$right_span) = explode('-',$this->formLayout);
 
 <div class="row">
     <div class="<?= $left_span ?>">
-        <h2>
-            <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Data')?>"; ?>
-            <small>
-                #<?= "<?php echo \$model->{$this->tableSchema->primaryKey} ?>" ?>
-            </small>
-        </h2>
 
         <?=
         "<?php
@@ -92,6 +76,11 @@ list($left_span,$right_span) = explode('-',$this->formLayout);
         <?php
         foreach ($this->tableSchema->columns as $column) {
             Yii::log(CJSON::encode($column));
+            
+            if($column->isPrimaryKey){
+                continue;
+            }            
+           
             if ($this->provider()->skipColumn($this->modelClass, $column)) {
                 continue;
             }

@@ -9,6 +9,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public $defaultAction = "admin";
     public $scenario = "crud";
     public $scope = "crud";
+    
+    //public $menu_route = "[module]/[controller]";        
 
 <?php
     $authPath = 'gtc.fullCrud.templates.slim.auth.';

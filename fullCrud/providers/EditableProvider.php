@@ -49,6 +49,7 @@ class EditableProvider extends GtcCodeProvider
             //return null; //$provider->generateValueField($modelClass, $column);
 
             return "array(
+                //{$column->dbType}
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
@@ -61,6 +62,7 @@ class EditableProvider extends GtcCodeProvider
 
         } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             return "array(
+                    //{$column->dbType}
                     'class' => 'editable.EditableColumn',
                     'name' => '{$column->name}',
                     'editable' => array(
@@ -74,6 +76,7 @@ class EditableProvider extends GtcCodeProvider
 
         } elseif (strtoupper($column->dbType) == 'TEXT') {
             return "array(
+                //{$column->dbType}
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
@@ -85,6 +88,7 @@ class EditableProvider extends GtcCodeProvider
 
         } elseif(strtoupper($column->dbType) == 'DATE') {
             return "array(
+                //{$column->dbType}
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
@@ -95,6 +99,7 @@ class EditableProvider extends GtcCodeProvider
             )";
         } elseif(strtoupper($column->dbType) == 'DATETIME') {
             return "array(
+                //{$column->dbType}
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
@@ -114,6 +119,7 @@ class EditableProvider extends GtcCodeProvider
                 
                 ) {
             return "array(
+                //{$column->dbType}
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
