@@ -177,7 +177,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
-        $this->render('admin', array('model' => $model));
+        if (Yii::app()->request->isAjaxRequest) {
+            $this->renderPartial('admin',array('model' => $model));
+        } else {
+            $this->render('admin', array('model' => $model));
+        }          
     }
 
     /**
