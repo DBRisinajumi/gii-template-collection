@@ -187,7 +187,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     /**
      * load controller model
      * @param int $id
-     * @return PfOrderItemNotes
+     * @return <?php echo $this->modelClass; ?>
      * @throws CHttpException|
      */
     public function loadModel($id)
